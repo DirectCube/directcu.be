@@ -3,7 +3,6 @@ window.SITE = {
   name: "DirectCube",
   role: "Minecraft network developer",
   tagline: "Owner & developer of TropixMC",
-  location: "",
   about:
     "I own TropixMC, where I'm building **PrisonBlock**: a Minecraft gamemode made from **17 custom plugins**, " +
     "running on a network of servers that act as one. I've also worked across the Minecraft community " +
@@ -11,7 +10,7 @@ window.SITE = {
 
   avatar: "assets/avatar.webp",
 
-  level: "[N]",
+  level: "",
 
   stats: [
     { label: "Class", value: "Network developer" },
@@ -270,7 +269,7 @@ window.SITE = {
     greeting: "Thanks for exploring my world!",
     tip: "Anything that isn't a command gets copied, ready to paste into a Discord DM.",
     links: [
-      { label: "GitHub", url: "https://github.com/DirectCube" },
+      { id: "github", label: "GitHub", url: "https://github.com/DirectCube" },
       { label: "TropixMC", url: "https://tropixmc.net" },
     ],
     server: {

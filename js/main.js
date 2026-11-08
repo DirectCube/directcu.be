@@ -18,7 +18,6 @@
   const isExternal = (url) => /^https?:\/\//i.test(url);
   const linkAttrs = (url) =>
     `href="${esc(url)}"${isExternal(url) ? ' target="_blank" rel="noopener noreferrer"' : ""}`;
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const cubeSvg = (c = {}) => `
     <svg viewBox="0 0 32 32" aria-hidden="true">
@@ -79,15 +78,6 @@
         <rect x="4" y="17" width="24" height="2" fill="#4a2c10"/>
         <rect x="14" y="16" width="4" height="4" fill="#e0c050"/>
       </svg>`,
-    school: `
-      <svg width="40" height="40" viewBox="0 0 32 32" aria-hidden="true">
-        <rect x="5" y="3" width="22" height="26" fill="#2e4a7a"/>
-        <rect x="9" y="5" width="16" height="22" fill="#efe3c2"/>
-        <rect x="5" y="3" width="4" height="26" fill="#1f3358"/>
-        <rect x="12" y="9" width="10" height="2" fill="#9c8a62"/>
-        <rect x="12" y="14" width="10" height="2" fill="#9c8a62"/>
-        <rect x="12" y="19" width="7" height="2" fill="#9c8a62"/>
-      </svg>`,
   };
 
   const ARROW = `
@@ -104,7 +94,8 @@
   $$('[data-bind="about"]').forEach((el) => {
     el.innerHTML = rich(S.about);
   });
-  bind("level", `LVL ${S.level}`);
+  if (S.level) bind("level", `LVL ${S.level}`);
+  else $$('[data-bind="level"]').forEach((el) => el.remove());
   bind("footer", `© ${new Date().getFullYear()} ${S.name} | Crafted by hand.`);
 
   const avatar = slot("avatar");
@@ -139,7 +130,7 @@
     .map((job) => {
       const cells = Array.from({ length: 9 }, (_, i) => (job.ingredients || [])[i] || "");
       const used = cells.filter(Boolean).map((g) => skillName.get(g) || g);
-      const grid = cells
+      const craftCells = cells
         .map((g) => `<div class="slot">${g ? esc(g) : ""}</div>`)
         .join("");
       const bullets = (job.bullets || []).map((b) => `<li>${rich(b)}</li>`).join("");
@@ -148,7 +139,7 @@
       return `
         <li class="recipe">
           <div class="craft" aria-hidden="true">
-            <div class="craft-grid">${grid}</div>
+            <div class="craft-grid">${craftCells}</div>
             ${ARROW}
             <div class="slot craft-result">${icon}</div>
           </div>
@@ -194,13 +185,15 @@
       .join("");
     const stack = (p.stack || []).join(" | ");
     inspect.innerHTML = `
-      <div class="inspect-preview" style="--preview: ${esc((p.cube && p.cube.left) || "#3a3a3a")}">${preview}</div>
+      <div class="inspect-preview">${preview}</div>
       <h3 class="inspect-name">${esc(p.name)}</h3>
-      <p class="inspect-kind" style="color: ${esc(p.color || "#ffffff")}">${esc(p.kind)}</p>
+      <p class="inspect-kind">${esc(p.kind)}</p>
       <p class="inspect-desc">${rich(p.description)}</p>
       ${stack ? `<p class="inspect-meta">Stack: ${esc(stack)}</p>` : ""}
       ${p.result ? `<p class="inspect-meta">Result: ${rich(p.result)}</p>` : ""}
       ${links ? `<div class="btn-row">${links}</div>` : ""}`;
+    $(".inspect-preview", inspect).style.setProperty("--preview", (p.cube && p.cube.left) || "#3a3a3a");
+    $(".inspect-kind", inspect).style.color = p.color || "#ffffff";
   };
 
   const select = (i, focus = false) => {
@@ -221,7 +214,7 @@
 
   grid.addEventListener("keydown", (e) => {
     if (!e.target.closest("button[data-index]")) return;
-    const cols = getComputedStyle(grid).gridTemplateColumns.split(" ").length || 9;
+    const cols = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
     const last = projects.length - 1;
     const moves = {
       ArrowLeft: selected - 1,
@@ -250,8 +243,9 @@
     const r = tip.getBoundingClientRect();
     const pad = 8;
     let shift = 0;
+    const vw = document.documentElement.clientWidth;
     if (r.left < pad) shift = pad - r.left;
-    else if (r.right > window.innerWidth - pad) shift = window.innerWidth - pad - r.right;
+    else if (r.right > vw - pad) shift = vw - pad - r.right;
     tip.style.setProperty("--tip-shift", `${Math.round(shift)}px`);
   };
 
@@ -261,9 +255,15 @@
     });
   };
 
+  let hoverHost = null;
   document.addEventListener("pointerover", (e) => {
     const host = e.target.closest(".has-tip");
-    if (host) placeTip(host);
+    if (host === hoverHost) return;
+    hoverHost = host;
+    if (host) {
+      closeTips(host);
+      placeTip(host);
+    }
   });
 
   document.addEventListener("focusin", (e) => {
@@ -278,8 +278,6 @@
       placeTip(host);
       host.classList.toggle("is-open");
     }
-    const a = e.target.closest('a[href="#"]');
-    if (a) e.preventDefault();
   });
 
   const c = S.contact || {};
@@ -287,10 +285,10 @@
   const log = slot("chat-log");
   const MAX_LINES = 120;
   const say = (html, cls = "") => {
-    const li = document.createElement("li");
-    if (cls) li.className = cls;
-    li.innerHTML = html;
-    log.appendChild(li);
+    const line = document.createElement("div");
+    if (cls) line.className = cls;
+    line.innerHTML = html;
+    log.appendChild(line);
     while (log.children.length > MAX_LINES) log.firstElementChild.remove();
     log.scrollTop = log.scrollHeight;
   };
@@ -309,19 +307,28 @@
   const gotoLink = (id, label) =>
     `<button type="button" class="chat-link" data-goto="${esc(id)}">${esc(label)}</button>`;
 
-  const handle = c.discord ? `@${c.discord}` : "";
+  const discordHandle = c.discord ? `@${c.discord}` : "";
+
+  let shortcuts = true;
+  try {
+    shortcuts = localStorage.getItem("shortcuts") !== "off";
+  } catch {}
 
   const copyText = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
       return true;
     } catch {
+      const prev = document.activeElement;
       const ta = document.createElement("textarea");
       ta.value = text;
       ta.setAttribute("readonly", "");
       ta.style.position = "fixed";
+      ta.style.top = "0";
+      ta.style.left = "0";
       ta.style.opacity = "0";
       document.body.appendChild(ta);
+      ta.focus();
       ta.select();
       let ok = false;
       try {
@@ -330,12 +337,13 @@
         ok = false;
       }
       ta.remove();
+      if (prev && prev.focus) prev.focus({ preventScroll: true });
       return ok;
     }
   };
 
   const contactLinks = (c.links || []).filter((l) => l.url);
-  const github = contactLinks.find((l) => /github/i.test(l.label));
+  const github = contactLinks.find((l) => l.id === "github");
 
   const findProject = (query) => {
     const q = query.trim().toLowerCase();
@@ -434,13 +442,24 @@
           serverText("No server address set up yet.");
           return;
         }
+        if (!status || Date.now() - status.at > 60000) {
+          serverText(`Pinging ${server.name || server.address}...`);
+          const entry = {
+            at: Date.now(),
+            data: fetch(`https://api.mcsrvstat.us/3/${encodeURIComponent(server.address)}`, {
+              signal: AbortSignal.timeout?.(8000),
+            }).then((res) => {
+              if (!res.ok) throw new Error(String(res.status));
+              return res.json();
+            }),
+          };
+          entry.data.catch(() => {
+            if (status === entry) status = null;
+          });
+          status = entry;
+        }
         try {
-          if (!status || Date.now() - status.at > 60000) {
-            const res = await fetch(`https://api.mcsrvstat.us/3/${encodeURIComponent(server.address)}`);
-            if (!res.ok) throw new Error(String(res.status));
-            status = { at: Date.now(), data: await res.json() };
-          }
-          const d = status.data;
+          const d = await status.data;
           const p = d.players || {};
           if (d.online) {
             serverText(`${server.name || server.address} is online: ${p.online ?? "?"}/${p.max ?? "?"} players.`, "is-good");
@@ -458,12 +477,12 @@
       aliases: ["dm", "contact"],
       desc: "Copy my Discord username",
       run: async () => {
-        if (!handle) {
+        if (!discordHandle) {
           serverText("No Discord set up yet.");
           return;
         }
         const ok = await copyText(c.discord);
-        serverText(ok ? `Copied ${c.discord} to your clipboard. Add me on Discord!` : `Add ${handle} on Discord.`);
+        serverText(ok ? `Copied ${c.discord} to your clipboard. Add me on Discord!` : `Add ${discordHandle} on Discord.`);
       },
     },
     {
@@ -477,6 +496,18 @@
         }
         window.open(github.url, "_blank", "noopener");
         fromServer(`Opening <a ${linkAttrs(github.url)}>${esc(github.url.replace(/^https?:\/\//, ""))}</a>`);
+      },
+    },
+    {
+      name: "keys",
+      aliases: ["shortcuts"],
+      desc: "Turn the 1-4, t and / shortcuts on or off",
+      run: () => {
+        shortcuts = !shortcuts;
+        try {
+          localStorage.setItem("shortcuts", shortcuts ? "on" : "off");
+        } catch {}
+        serverText(`Keyboard shortcuts ${shortcuts ? "on" : "off"}.`);
       },
     },
     {
@@ -502,7 +533,7 @@
 
     if (text.startsWith("/")) {
       out(`<span class="chat-dim">&gt; ${esc(text)}</span>`);
-      const [head, ...rest] = text.slice(1).split(/\s+/);
+      const [head, ...rest] = text.slice(1).trim().split(/\s+/);
       const cmd = findCommand(head.toLowerCase());
       if (!cmd) {
         fromServer(`Unknown command: /${esc(head)}. Type ${runLink("/help")} for help.`, "is-bad");
@@ -513,20 +544,22 @@
     }
 
     say(`&lt;You&gt; ${esc(text)}`, "is-you");
-    if (!handle) {
+    if (!discordHandle) {
       serverText("No Discord set up yet.");
       return;
     }
     const ok = await copyText(text);
-    serverText(ok ? `Copied! Paste it into a DM to ${handle} on Discord.` : `Couldn't copy. DM ${handle} on Discord.`);
+    serverText(
+      ok ? `Copied! Paste it into a DM to ${discordHandle} on Discord.` : `Couldn't copy. DM ${discordHandle} on Discord.`
+    );
   };
 
   if (c.greeting) fromMe(esc(c.greeting));
-  if (handle) fromMe(`Best way to reach me: Discord ${copyLink(c.discord, handle)}`);
+  if (discordHandle) fromMe(`Best way to reach me: Discord ${copyLink(c.discord, discordHandle)}`);
   if (contactLinks.length) {
     fromMe(`Also on ${contactLinks.map((l) => `<a ${linkAttrs(l.url)}>${esc(l.label)}</a>`).join(" | ")}`);
   }
-  fromServer(`Type ${runLink("/help")} for commands, or press / anywhere to open chat.`);
+  fromServer(`Type ${runLink("/help")} for commands${shortcuts ? ", or press / anywhere to open chat" : ""}.`);
   if (c.tip) serverText(c.tip);
 
   const form = slot("chat-form");
@@ -583,25 +616,36 @@
     input.setAttribute("aria-expanded", String(open));
     if (!open) {
       suggestBox.innerHTML = "";
+      input.removeAttribute("aria-activedescendant");
       return;
     }
     suggestBox.innerHTML = suggestions
       .map(
         (s, i) => `
-          <li>
-            <button type="button" class="suggest-item${i === activeSuggestion ? " is-active" : ""}" data-i="${i}" tabindex="-1">
+          <li role="none">
+            <button type="button" role="option" id="suggest-${i}" aria-selected="${i === activeSuggestion}"
+              class="suggest-item${i === activeSuggestion ? " is-active" : ""}" data-i="${i}" tabindex="-1">
               <span>${esc(s.label)}</span>${dim(s.desc)}
             </button>
           </li>`
       )
       .join("");
+    input.setAttribute("aria-activedescendant", `suggest-${activeSuggestion}`);
     const activeEl = $(".is-active", suggestBox);
-    if (activeEl) activeEl.scrollIntoView({ block: "nearest" });
+    if (activeEl) {
+      const top = activeEl.offsetTop;
+      const bottom = top + activeEl.offsetHeight;
+      if (top < suggestBox.scrollTop) suggestBox.scrollTop = top;
+      else if (bottom > suggestBox.scrollTop + suggestBox.clientHeight) {
+        suggestBox.scrollTop = bottom - suggestBox.clientHeight;
+      }
+    }
   };
 
   function updateSuggest() {
     suggestions = computeSuggestions(input.value);
-    activeSuggestion = 0;
+    const exact = suggestions.findIndex((s) => s.value.trim() === input.value.trim());
+    activeSuggestion = Math.max(0, exact);
     renderSuggest();
   }
 
@@ -624,9 +668,11 @@
 
   input.addEventListener("input", updateSuggest);
 
+  let draft = "";
+
   input.addEventListener("keydown", (e) => {
     const open = suggestions.length > 0;
-    if (e.key === "Tab" && open) {
+    if (e.key === "Tab" && !e.shiftKey && open && input.value !== suggestions[activeSuggestion].value) {
       e.preventDefault();
       acceptSuggestion(suggestions[activeSuggestion], false);
     } else if (e.key === "Enter" && open && input.value.trim() !== suggestions[activeSuggestion].value.trim()) {
@@ -642,8 +688,9 @@
         activeSuggestion = (activeSuggestion + step + suggestions.length) % suggestions.length;
         renderSuggest();
       } else if (sentLines.length) {
+        if (historyAt === sentLines.length) draft = input.value;
         historyAt = Math.min(sentLines.length, Math.max(0, historyAt + step));
-        input.value = sentLines[historyAt] ?? "";
+        input.value = historyAt === sentLines.length ? draft : sentLines[historyAt];
       }
     }
   });
@@ -654,7 +701,11 @@
     if (btn) acceptSuggestion(suggestions[Number(btn.dataset.i)], true);
   });
 
-  input.addEventListener("blur", () => setTimeout(closeSuggest, 100));
+  input.addEventListener("blur", () =>
+    setTimeout(() => {
+      if (document.activeElement !== input) closeSuggest();
+    }, 100)
+  );
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -683,9 +734,15 @@
   };
   setActive(sections[0] && sections[0].id);
 
+  let scrollLock = 0;
+  window.addEventListener("scrollend", () => {
+    scrollLock = 0;
+  });
+
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
       (entries) => {
+        if (Date.now() < scrollLock) return;
         entries.forEach((en) => {
           if (en.isIntersecting) setActive(en.target.id);
         });
@@ -703,7 +760,9 @@
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(1, window.scrollY / max) : 1;
       xpFill.style.width = `${(progress * 100).toFixed(1)}%`;
-      if (progress > 0.995 && sections.length) setActive(sections[sections.length - 1].id);
+      if (max > 0 && progress > 0.995 && sections.length && Date.now() >= scrollLock) {
+        setActive(sections[sections.length - 1].id);
+      }
       ticking = false;
     });
   };
@@ -714,8 +773,9 @@
   const goTo = (id) => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
-    history.replaceState(null, "", `#${id}`);
+    scrollLock = Date.now() + 1500;
+    el.scrollIntoView({ block: "start" });
+    if (location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
     setActive(id);
   };
 
@@ -726,10 +786,11 @@
       closeTips();
       return;
     }
+    if (!shortcuts) return;
     if (e.key === "/" || e.key === "t" || e.key === "T") {
       e.preventDefault();
       goTo("chat");
-      input.value = e.key === "/" ? "/" : "";
+      if (!input.value) input.value = e.key === "/" ? "/" : "";
       input.focus({ preventScroll: true });
       updateSuggest();
       return;

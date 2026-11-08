@@ -1,6 +1,8 @@
 @font-face {
   font-family: "Monocraft";
-  src: url("../assets/fonts/Monocraft-Regular.ttf") format("truetype");
+  src:
+    url("../assets/fonts/Monocraft-Regular.woff2") format("woff2"),
+    url("../assets/fonts/Monocraft-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -55,6 +57,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-padding-bottom: var(--hud-space);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -340,11 +343,17 @@ a.slot:hover {
   color: var(--tip-dim);
 }
 
-.has-tip:hover .tip,
 .has-tip:focus-visible .tip,
 .has-tip.is-open .tip {
   opacity: 1;
   visibility: visible;
+}
+
+@media (hover: hover) {
+  .has-tip:hover .tip {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .site-header {
@@ -370,6 +379,8 @@ a.slot:hover {
 
 .site-tagline {
   margin: 0;
+  padding: 0 9px;
+  background: rgba(20, 12, 18, 0.6);
   color: var(--cream);
 }
 

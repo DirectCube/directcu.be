@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.mcsrvstat.us; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.mcsrvstat.us; base-uri 'self'; form-action 'self'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>DirectCube | Minecraft network developer</title>
   <meta name="description" content="DirectCube owns and builds TropixMC and PrisonBlock. Experience, projects and contact.">
@@ -11,10 +11,15 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="DirectCube | Minecraft network developer">
   <meta property="og:description" content="Owner and developer of TropixMC and PrisonBlock.">
+  <meta property="og:url" content="https://directcu.be/">
+  <meta property="og:image" content="https://directcu.be/assets/avatar.webp">
+  <meta property="og:image:alt" content="DirectCube avatar">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://directcu.be/">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/Monocraft-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/Monocraft-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/content.js" defer></script>
   <script src="js/main.js" defer></script>
@@ -75,13 +80,13 @@
 
     <section id="chat" class="chat" aria-labelledby="chat-title">
       <h2 class="chat-title" id="chat-title">Chat: say hi</h2>
-      <ol class="chat-log" data-slot="chat-log" aria-live="polite"></ol>
+      <div class="chat-log" data-slot="chat-log" role="log" aria-live="polite" aria-labelledby="chat-title"></div>
       <form class="chat-form" data-slot="chat-form" novalidate>
         <div class="chat-field">
           <label for="chat-input">Chat (type /help for commands)</label>
           <div class="chat-input-wrap">
-            <ul class="chat-suggest" id="chat-suggest" data-slot="chat-suggest" hidden></ul>
-            <input id="chat-input" name="message" type="text" autocomplete="off" spellcheck="false" placeholder="Type /help or a message…" maxlength="500" aria-autocomplete="list" aria-controls="chat-suggest" aria-expanded="false">
+            <ul class="chat-suggest" id="chat-suggest" data-slot="chat-suggest" role="listbox" aria-label="Command suggestions" hidden></ul>
+            <input id="chat-input" name="message" type="text" role="combobox" autocomplete="off" spellcheck="false" placeholder="Type /help or a message…" maxlength="500" aria-autocomplete="list" aria-controls="chat-suggest" aria-expanded="false">
           </div>
         </div>
         <button class="btn" type="submit">Send</button>
