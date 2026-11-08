@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.mcsrvstat.us; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>DirectCube | Minecraft network developer</title>
+  <meta name="description" content="DirectCube owns and builds TropixMC and PrisonBlock. Experience, projects and contact.">
+  <meta name="theme-color" content="#5a4148">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DirectCube | Minecraft network developer">
+  <meta property="og:description" content="Owner and developer of TropixMC and PrisonBlock.">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/Monocraft-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/content.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <div class="world" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header wrap">
+    <a class="logo" href="#top" id="top">
+      <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true">
+        <polygon points="16,2 30,9 16,16 2,9" fill="#6fbf3b"/>
+        <polygon points="2,9 16,16 16,30 2,23" fill="#8a5f3d"/>
+        <polygon points="30,9 16,16 16,30 30,23" fill="#6b4630"/>
+        <polygon points="2,9 16,16 16,20 2,13" fill="#5d9b2f"/>
+        <polygon points="30,9 16,16 16,20 30,13" fill="#4f8a26"/>
+      </svg>
+      <span data-bind="handle">DirectCube</span>
+    </a>
+    <p class="site-tagline" data-bind="tagline"></p>
+  </header>
+
+  <main id="main" class="wrap stack">
+    <noscript>
+      <p class="panel">This site loads its content with JavaScript. Please enable it to see the full portfolio.</p>
+    </noscript>
+
+    <section id="profile" class="panel" aria-labelledby="profile-name">
+      <p class="panel-title">Player Profile</p>
+      <div class="profile">
+        <div class="avatar" data-slot="avatar"></div>
+        <div class="profile-body">
+          <h1 class="profile-name" id="profile-name" data-bind="name"></h1>
+          <p class="profile-about" data-bind="about"></p>
+          <dl class="stats" data-slot="stats"></dl>
+          <h2 class="label">Skills (hover or tap a slot)</h2>
+          <ul class="slot-row" data-slot="skills"></ul>
+          <div class="btn-row">
+            <a class="btn" href="#chat">Open chat ↓</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quests" class="panel" aria-labelledby="quests-title">
+      <h2 class="panel-title" id="quests-title">Crafting Recipes: Experience</h2>
+      <ol class="recipes" data-slot="recipes"></ol>
+    </section>
+
+    <section id="chest" class="panel" aria-labelledby="chest-title">
+      <h2 class="panel-title" id="chest-title">Project Chest</h2>
+      <p class="panel-sub">Pick an item to inspect it. Arrow keys move between items.</p>
+      <div class="chest">
+        <div class="chest-grid" data-slot="chest-grid" role="group" aria-label="Projects"></div>
+        <article class="inspect" id="inspect" data-slot="inspect" aria-live="polite"></article>
+      </div>
+    </section>
+
+    <section id="chat" class="chat" aria-labelledby="chat-title">
+      <h2 class="chat-title" id="chat-title">Chat: say hi</h2>
+      <ol class="chat-log" data-slot="chat-log" aria-live="polite"></ol>
+      <form class="chat-form" data-slot="chat-form" novalidate>
+        <div class="chat-field">
+          <label for="chat-input">Chat (type /help for commands)</label>
+          <div class="chat-input-wrap">
+            <ul class="chat-suggest" id="chat-suggest" data-slot="chat-suggest" hidden></ul>
+            <input id="chat-input" name="message" type="text" autocomplete="off" spellcheck="false" placeholder="Type /help or a message…" maxlength="500" aria-autocomplete="list" aria-controls="chat-suggest" aria-expanded="false">
+          </div>
+        </div>
+        <button class="btn" type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p data-bind="footer"></p>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <nav class="hud" aria-label="Sections">
+    <div class="xp" aria-hidden="true">
+      <p class="xp-level" data-bind="level"></p>
+      <div class="xp-bar"><div class="xp-fill" data-slot="xp-fill"></div></div>
+    </div>
+    <ul class="hotbar">
+      <li>
+        <a class="slot hot" href="#profile" data-section="profile">
+          <span class="key" aria-hidden="true">1</span>
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="10" y="2" width="12" height="12" fill="#e0b088"/>
+            <rect x="10" y="2" width="12" height="4" fill="#222"/>
+            <rect x="12" y="8" width="2" height="2" fill="#222"/>
+            <rect x="18" y="8" width="2" height="2" fill="#222"/>
+            <rect x="8" y="16" width="16" height="10" fill="#d9772e"/>
+            <rect x="10" y="26" width="5" height="4" fill="#3a3a3a"/>
+            <rect x="17" y="26" width="5" height="4" fill="#3a3a3a"/>
+          </svg>
+          <span class="hot-label">Profile</span>
+        </a>
+      </li>
+      <li>
+        <a class="slot hot" href="#quests" data-section="quests">
+          <span class="key" aria-hidden="true">2</span>
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="5" y="3" width="22" height="26" fill="#7a2e22"/>
+            <rect x="9" y="5" width="16" height="22" fill="#efe3c2"/>
+            <rect x="5" y="3" width="4" height="26" fill="#5a1f16"/>
+            <rect x="12" y="9" width="10" height="2" fill="#9c8a62"/>
+            <rect x="12" y="14" width="10" height="2" fill="#9c8a62"/>
+            <rect x="12" y="19" width="7" height="2" fill="#9c8a62"/>
+          </svg>
+          <span class="hot-label">Quests</span>
+        </a>
+      </li>
+      <li>
+        <a class="slot hot" href="#chest" data-section="chest">
+          <span class="key" aria-hidden="true">3</span>
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="3" y="7" width="26" height="21" fill="#9a6a2f"/>
+            <rect x="3" y="7" width="26" height="6" fill="#b8833f"/>
+            <rect x="3" y="13" width="26" height="3" fill="#5e3d14"/>
+            <rect x="14" y="11" width="4" height="8" fill="#d0d0d0"/>
+            <rect x="3" y="26" width="26" height="2" fill="#5e3d14"/>
+          </svg>
+          <span class="hot-label">Chest</span>
+        </a>
+      </li>
+      <li>
+        <a class="slot hot" href="#chat" data-section="chat">
+          <span class="key" aria-hidden="true">4</span>
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="3" y="5" width="26" height="17" fill="#f2f2f2"/>
+            <rect x="7" y="22" width="6" height="4" fill="#f2f2f2"/>
+            <rect x="7" y="26" width="3" height="3" fill="#f2f2f2"/>
+            <rect x="8" y="12" width="4" height="4" fill="#3f3f3f"/>
+            <rect x="14" y="12" width="4" height="4" fill="#3f3f3f"/>
+            <rect x="20" y="12" width="4" height="4" fill="#3f3f3f"/>
+          </svg>
+          <span class="hot-label">Chat</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</body>
+</html>

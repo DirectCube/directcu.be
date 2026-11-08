@@ -1,0 +1,273 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" shape-rendering="crispEdges">
+  <style>
+    .drift { animation: drift 240s steps(240) infinite; }
+    .birds { animation: drift 120s steps(240) infinite; }
+    @keyframes drift { to { transform: translateX(-480px); } }
+    .shim-a, .shim-b { animation: shim 3s steps(1) infinite; }
+    .shim-b { animation-delay: -1.5s; }
+    @keyframes shim { 50% { opacity: 0.25; } }
+    @media (prefers-reduced-motion: reduce) {
+      .drift, .birds, .shim-a, .shim-b { animation: none; }
+    }
+  </style>
+
+  <defs>
+    <pattern id="dA" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#e2b4b1"/><rect x="2" y="2" width="2" height="2" fill="#e2b4b1"/></pattern>
+    <pattern id="dB" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#eac0b9"/><rect x="2" y="2" width="2" height="2" fill="#eac0b9"/></pattern>
+    <pattern id="dC" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#f0cbc0"/><rect x="2" y="2" width="2" height="2" fill="#f0cbc0"/></pattern>
+    <pattern id="dD" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#f5d6c8"/><rect x="2" y="2" width="2" height="2" fill="#f5d6c8"/></pattern>
+    <pattern id="dE" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#f9e2d2"/><rect x="2" y="2" width="2" height="2" fill="#f9e2d2"/></pattern>
+    <pattern id="dW" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#d3a8a3"/><rect x="2" y="2" width="2" height="2" fill="#d3a8a3"/></pattern>
+    <pattern id="dX" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#c79b97"/><rect x="2" y="2" width="2" height="2" fill="#c79b97"/></pattern>
+
+    <g id="clouds">
+      <rect x="36" y="40" width="28" height="4" fill="#fbe6dc"/>
+      <rect x="24" y="44" width="56" height="4" fill="#fbe6dc"/>
+      <rect x="24" y="48" width="56" height="2" fill="#efd0c6"/>
+      <rect x="166" y="66" width="36" height="4" fill="#fbe6dc"/>
+      <rect x="150" y="70" width="72" height="4" fill="#fbe6dc"/>
+      <rect x="150" y="74" width="72" height="2" fill="#efd0c6"/>
+      <rect x="240" y="19" width="18" height="3" fill="#f6dbd1"/>
+      <rect x="230" y="22" width="40" height="3" fill="#f6dbd1"/>
+      <rect x="230" y="25" width="40" height="2" fill="#e8c2bb"/>
+      <rect x="334" y="32" width="30" height="4" fill="#fbe6dc"/>
+      <rect x="318" y="36" width="64" height="4" fill="#fbe6dc"/>
+      <rect x="318" y="40" width="64" height="2" fill="#efd0c6"/>
+      <rect x="420" y="81" width="20" height="3" fill="#fdeee6"/>
+      <rect x="410" y="84" width="44" height="3" fill="#fdeee6"/>
+      <rect x="410" y="87" width="44" height="2" fill="#f3d8cd"/>
+    </g>
+
+    <g id="bird" fill="#a9787a">
+      <rect x="0" y="0" width="2" height="1"/>
+      <rect x="2" y="1" width="1" height="1"/>
+      <rect x="3" y="2" width="1" height="1"/>
+      <rect x="4" y="1" width="1" height="1"/>
+      <rect x="5" y="0" width="2" height="1"/>
+    </g>
+    <g id="flock">
+      <use href="#bird" x="96" y="52"/>
+      <use href="#bird" x="106" y="47"/>
+      <use href="#bird" x="104" y="58"/>
+      <use href="#bird" x="372" y="64"/>
+      <use href="#bird" x="381" y="60"/>
+    </g>
+
+    <g id="canopy2">
+      <rect x="-10" y="-5" width="20" height="5"/>
+      <rect x="-17" y="0" width="34" height="7"/>
+      <rect x="-10" y="-5" width="20" height="1" fill="#fff" opacity="0.2"/>
+      <rect x="-17" y="0" width="34" height="1" fill="#fff" opacity="0.2"/>
+      <rect x="-17" y="6" width="34" height="1" fill="#000" opacity="0.12"/>
+      <rect x="-16" y="7" width="1" height="10"/>
+      <rect x="-11" y="7" width="1" height="6"/>
+      <rect x="-5" y="7" width="1" height="4"/>
+      <rect x="6" y="7" width="1" height="8"/>
+      <rect x="11" y="7" width="1" height="5"/>
+      <rect x="15" y="7" width="1" height="12"/>
+      <rect x="-13" y="18" width="26" height="4"/>
+      <rect x="-22" y="22" width="44" height="7"/>
+      <rect x="-13" y="18" width="26" height="1" fill="#fff" opacity="0.2"/>
+      <rect x="-22" y="22" width="44" height="1" fill="#fff" opacity="0.2"/>
+      <rect x="-22" y="28" width="44" height="1" fill="#000" opacity="0.12"/>
+      <rect x="-21" y="29" width="1" height="14"/>
+      <rect x="-15" y="29" width="1" height="8"/>
+      <rect x="-8" y="29" width="1" height="5"/>
+      <rect x="9" y="29" width="1" height="10"/>
+      <rect x="14" y="29" width="1" height="6"/>
+      <rect x="20" y="29" width="1" height="15"/>
+    </g>
+    <g id="canopy3">
+      <use href="#canopy2"/>
+      <rect x="-10" y="44" width="20" height="3"/>
+      <rect x="-16" y="47" width="32" height="6"/>
+      <rect x="-16" y="47" width="32" height="1" fill="#fff" opacity="0.2"/>
+      <rect x="-16" y="52" width="32" height="1" fill="#000" opacity="0.12"/>
+      <rect x="-15" y="53" width="1" height="9"/>
+      <rect x="-6" y="53" width="1" height="5"/>
+      <rect x="8" y="53" width="1" height="7"/>
+      <rect x="14" y="53" width="1" height="10"/>
+    </g>
+
+    <g id="reeds" fill="#9e6f6b">
+      <rect x="0" y="6" width="1" height="14"/>
+      <rect x="3" y="0" width="1" height="20"/>
+      <rect x="2" y="1" width="3" height="4"/>
+      <rect x="6" y="4" width="1" height="16"/>
+      <rect x="9" y="9" width="1" height="11"/>
+      <rect x="8" y="10" width="3" height="3"/>
+      <rect x="12" y="7" width="1" height="13"/>
+    </g>
+  </defs>
+
+  <rect width="480" height="30" fill="#d9a7a8"/>
+  <rect y="30" width="480" height="30" fill="#e2b4b1"/>
+  <rect y="60" width="480" height="30" fill="#eac0b9"/>
+  <rect y="90" width="480" height="25" fill="#f0cbc0"/>
+  <rect y="115" width="480" height="25" fill="#f5d6c8"/>
+  <rect y="140" width="480" height="30" fill="#f9e2d2"/>
+  <rect y="26" width="480" height="4" fill="url(#dA)"/>
+  <rect y="56" width="480" height="4" fill="url(#dB)"/>
+  <rect y="86" width="480" height="4" fill="url(#dC)"/>
+  <rect y="111" width="480" height="4" fill="url(#dD)"/>
+  <rect y="136" width="480" height="4" fill="url(#dE)"/>
+
+  <rect x="231" y="92" width="48" height="54" fill="#fbe5d8" opacity="0.6"/>
+  <rect x="228" y="95" width="54" height="48" fill="#fbe5d8" opacity="0.6"/>
+  <rect x="237" y="98" width="36" height="42" fill="#fce9dc"/>
+  <rect x="234" y="101" width="42" height="36" fill="#fce9dc"/>
+  <rect x="243" y="104" width="24" height="30" fill="#fff3e6"/>
+  <rect x="240" y="107" width="30" height="24" fill="#fff3e6"/>
+
+  <g class="drift">
+    <use href="#clouds"/>
+    <use href="#clouds" x="480"/>
+  </g>
+  <g class="birds">
+    <use href="#flock"/>
+    <use href="#flock" x="480"/>
+  </g>
+
+  <g fill="#e8c0b6">
+    <rect x="0" y="160" width="70" height="10"/>
+    <rect x="8" y="154" width="40" height="6"/>
+    <rect x="18" y="150" width="16" height="4"/>
+    <rect x="110" y="163" width="90" height="7"/>
+    <rect x="124" y="158" width="40" height="5"/>
+    <rect x="300" y="162" width="60" height="8"/>
+    <rect x="312" y="158" width="26" height="4"/>
+    <rect x="380" y="158" width="100" height="12"/>
+    <rect x="396" y="152" width="56" height="6"/>
+    <rect x="416" y="147" width="22" height="5"/>
+  </g>
+
+  <g fill="#d8aca3">
+    <rect x="58" y="94" width="4" height="72"/>
+    <use href="#canopy3" x="60" y="94"/>
+    <rect x="453" y="104" width="4" height="62"/>
+    <use href="#canopy2" x="455" y="104"/>
+    <rect x="320" y="118" width="3" height="44"/>
+    <use href="#canopy2" x="321" y="118"/>
+  </g>
+
+  <g fill="#c99891">
+    <rect x="133" y="108" width="4" height="60"/>
+    <use href="#canopy2" x="135" y="108"/>
+    <rect x="388" y="80" width="4" height="88"/>
+    <use href="#canopy3" x="390" y="80"/>
+    <rect x="178" y="166" width="46" height="4"/>
+    <rect x="370" y="166" width="40" height="3"/>
+  </g>
+
+  <g fill="#b47f79" transform="translate(200 50) scale(1.5)">
+    <rect x="-2" y="0" width="4" height="80"/>
+    <rect x="-1" y="0" width="1" height="80" fill="#fff" opacity="0.15"/>
+    <rect x="-4" y="76" width="8" height="4"/>
+    <use href="#canopy3"/>
+  </g>
+
+  <rect y="170" width="480" height="6" fill="#efcdc3"/>
+  <rect y="176" width="480" height="24" fill="#e0b8b1"/>
+  <rect y="200" width="480" height="35" fill="#d3a8a3"/>
+  <rect y="235" width="480" height="35" fill="#c79b97"/>
+  <rect y="198" width="480" height="4" fill="url(#dW)"/>
+  <rect y="233" width="480" height="4" fill="url(#dX)"/>
+
+  <rect x="198" y="170" width="6" height="34" fill="#b47f79" opacity="0.35"/>
+  <rect x="58" y="170" width="4" height="18" fill="#d8aca3" opacity="0.5"/>
+  <rect x="388" y="170" width="4" height="24" fill="#c99891" opacity="0.45"/>
+  <rect x="179" y="170" width="44" height="2" fill="#c99891" opacity="0.35"/>
+
+  <g fill="#fdeee4">
+    <g class="shim-a">
+      <rect x="244" y="172" width="22" height="2"/>
+      <rect x="246" y="184" width="18" height="2"/>
+      <rect x="243" y="199" width="24" height="2"/>
+      <rect x="247" y="218" width="16" height="2"/>
+      <rect x="249" y="241" width="12" height="2"/>
+    </g>
+    <g class="shim-b">
+      <rect x="240" y="178" width="30" height="2"/>
+      <rect x="236" y="191" width="38" height="2"/>
+      <rect x="238" y="208" width="34" height="2"/>
+      <rect x="241" y="229" width="28" height="2"/>
+      <rect x="246" y="254" width="18" height="2"/>
+    </g>
+  </g>
+
+  <g fill="#e9c4bc">
+    <rect x="20" y="186" width="46" height="1"/>
+    <rect x="96" y="194" width="34" height="1"/>
+    <rect x="150" y="182" width="26" height="1"/>
+    <rect x="330" y="188" width="52" height="1"/>
+    <rect x="420" y="198" width="40" height="1"/>
+    <rect x="30" y="212" width="64" height="1"/>
+    <rect x="140" y="222" width="40" height="1"/>
+    <rect x="300" y="216" width="58" height="1"/>
+    <rect x="400" y="226" width="50" height="1"/>
+    <rect x="96" y="256" width="70" height="1"/>
+    <rect x="200" y="262" width="44" height="1"/>
+    <rect x="300" y="252" width="60" height="1"/>
+  </g>
+  <g fill="#b98c88">
+    <rect x="100" y="240" width="30" height="1"/>
+    <rect x="300" y="264" width="40" height="1"/>
+    <rect x="170" y="246" width="24" height="1"/>
+  </g>
+
+  <g fill="#b58985">
+    <rect x="150" y="238" width="10" height="2"/>
+    <rect x="152" y="237" width="6" height="1"/>
+    <rect x="166" y="243" width="7" height="2"/>
+    <rect x="330" y="232" width="9" height="2"/>
+    <rect x="332" y="231" width="5" height="1"/>
+  </g>
+  <rect x="155" y="236" width="2" height="1" fill="#f2d4cc"/>
+
+  <rect x="16" y="250" width="64" height="3" fill="#b38582" opacity="0.5"/>
+  <rect x="16" y="238" width="64" height="12" fill="#b98a85"/>
+  <rect x="16" y="236" width="64" height="2" fill="#d2a59f"/>
+  <rect x="28" y="228" width="32" height="8" fill="#bf908a"/>
+  <rect x="28" y="226" width="32" height="2" fill="#d8aba5"/>
+  <rect x="36" y="220" width="16" height="6" fill="#c4958f"/>
+  <rect x="36" y="218" width="16" height="2" fill="#ddb0aa"/>
+  <g fill="#a87a75">
+    <rect x="16" y="244" width="64" height="1"/>
+    <rect x="32" y="238" width="1" height="6"/>
+    <rect x="48" y="245" width="1" height="5"/>
+    <rect x="64" y="238" width="1" height="6"/>
+    <rect x="44" y="228" width="1" height="8"/>
+    <rect x="44" y="220" width="1" height="6"/>
+  </g>
+
+  <rect x="392" y="256" width="72" height="3" fill="#b38582" opacity="0.5"/>
+  <rect x="392" y="246" width="72" height="10" fill="#b98a85"/>
+  <rect x="392" y="244" width="72" height="2" fill="#d2a59f"/>
+  <rect x="420" y="238" width="24" height="6" fill="#bf908a"/>
+  <rect x="420" y="236" width="24" height="2" fill="#d8aba5"/>
+  <g fill="#a87a75">
+    <rect x="392" y="251" width="72" height="1"/>
+    <rect x="408" y="246" width="1" height="5"/>
+    <rect x="424" y="252" width="1" height="4"/>
+    <rect x="440" y="246" width="1" height="5"/>
+    <rect x="456" y="252" width="1" height="4"/>
+    <rect x="432" y="238" width="1" height="6"/>
+  </g>
+
+  <use href="#reeds" x="86" y="244"/>
+  <use href="#reeds" x="96" y="250"/>
+  <use href="#reeds" x="366" y="248"/>
+  <use href="#reeds" x="470" y="246"/>
+
+  <g fill="#9a6b67">
+    <rect x="10" y="60" width="8" height="190"/>
+    <rect x="11" y="60" width="2" height="190" fill="#fff" opacity="0.12"/>
+    <rect x="2" y="246" width="8" height="2"/>
+    <rect x="0" y="248" width="4" height="10"/>
+    <rect x="18" y="244" width="8" height="2"/>
+    <rect x="24" y="246" width="3" height="12"/>
+    <rect x="16" y="250" width="2" height="8"/>
+    <use href="#canopy3" transform="translate(14 46) scale(1.8)"/>
+  </g>
+  <rect x="0" y="258" width="30" height="2" fill="#9a6b67" opacity="0.4"/>
+</svg>
