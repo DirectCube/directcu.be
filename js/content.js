@@ -38,7 +38,7 @@ window.SITE = {
       dates: "Current",
       bullets: [
         "Passion project making groundbreaking tech for Minecraft.",
-        "Building **PrisonBlock**: **17 custom plugins** and **2,000+ commits** since June 2026.",
+        "Building **PrisonBlock**: **17 custom plugins** and **2,000+ commits** since June 2025.",
         "Designed **Oasis**, the network layer that runs many servers as one.",
       ],
       ingredients: ["JAVA", "MC", "DB", "OPS", "WEB", "PCK", "QA", "MOD", ""],
@@ -72,7 +72,7 @@ window.SITE = {
       title: "Moderator",
       org: "PenguinGG",
       dates: "Former",
-      bullets: ["Moderated the community at **100 concurrent players**, up until it shut down."],
+      bullets: ["Moderated the community at **100 concurrent players."],
       ingredients: ["", "MOD", "", "", "MC", "", "", "", ""],
     },
   ],
